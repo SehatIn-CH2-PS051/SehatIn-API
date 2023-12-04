@@ -1,0 +1,11 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 
+           'asia-southeast2-docker.pkg.dev/sehatin-406505/sehatin-api/sehatin-api', 
+           '.']
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',
+           'asia-southeast2-docker.pkg.dev/sehatin-406505/sehatin-api/sehatin-api']
