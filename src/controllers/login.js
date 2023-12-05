@@ -1,4 +1,5 @@
 const pool = require('../db');
+const bcrypt = require('bcrypt');
 
 const login = async (req, res) => {
   try {
@@ -10,15 +11,14 @@ const login = async (req, res) => {
       [email]
     );
 
-    console.log(user);
-
     // user is not registered
     if (user.length === 0) {
       return res.status(401).json({ message: 'email is not registered' });
     };
 
     // check password
-    if (user[0].password !== password) {
+    const isPasswordMatch = await bcrypt.compare(password, user[0].password);
+    if (!isPasswordMatch) {
       return res.status(401).json({ message: 'invalid password' });
     }
 
