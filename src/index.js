@@ -9,6 +9,7 @@ const { login } = require('./controllers/login');
 
 const app = express();
 const port = process.env.PORT || 8080;
+const env = process.env.ENV;
 
 // allow CORS from * Origin
 app.use(cors());
@@ -17,7 +18,11 @@ app.use(cors());
 app.use(express.json());
 
 app.listen(port, () => {
-  console.log(`Sehatin API listening on port ${port}`);
+  if (env === 'dev') {
+    console.log(`http://localhost:${port}`);
+  } else {
+    console.log('Sehatin API is up and running...');
+  }
 });
 
 // === ROUTES === //

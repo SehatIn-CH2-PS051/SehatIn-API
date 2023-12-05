@@ -1,4 +1,5 @@
 const pool = require('../db');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
 const register = async (req, res) => {
@@ -23,11 +24,15 @@ const register = async (req, res) => {
     const randomBuffer = crypto.randomBytes(6);
     const uid = randomBuffer.toString('hex');
 
+    // hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     await pool.query(
       `INSERT INTO users
       (uid, email, password, name, age, gender, height, weight, goal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [uid, email, password, name, age, gender, height, weight, goal]
+      [uid, email, hashedPassword, name, age, gender, height, weight, goal]
     );
 
     res.status(200).json({ message: 'registration success!' });
