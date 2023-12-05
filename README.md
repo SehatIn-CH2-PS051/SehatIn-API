@@ -5,11 +5,10 @@
 https://sehatin-api-64zqryr67a-et.a.run.app
 
 ## 🎯 Endpoints
-Send your requests in JSON.
+Send your request body in JSON.
 
 ### 1. Register a New User
 #### POST /register
-##### Request Body (in JSON)
 - email (String)
 - password (String)
 - name (String)
@@ -21,6 +20,5 @@ Send your requests in JSON.
 
 ### 2. Login
 #### POST /login
-##### Request Body (in JSON)
 - email (String)
 - password (String)
