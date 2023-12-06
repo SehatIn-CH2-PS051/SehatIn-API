@@ -1,3 +1,7 @@
 node_modules
 .env
 .git
+.gitignore
+cloudbuild.yaml
+Dockerfile
+README.md

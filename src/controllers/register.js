@@ -1,6 +1,7 @@
 const pool = require('../db');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
@@ -35,7 +36,8 @@ const register = async (req, res) => {
       [uid, email, hashedPassword, name, age, gender, height, weight, goal]
     );
 
-    res.status(200).json({ message: 'registration success!' });
+    const token = jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    res.status(200).json({ message: 'registration success!', token });
   } catch (error) {
     // server error
     console.log(error);
