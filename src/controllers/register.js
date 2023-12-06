@@ -2,12 +2,14 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const { calculateBMI, calculateBMR, getBMIInfo } = require('../lib/bmi');
 
 const register = async (req, res) => {
   try {
     const {
-      email, password, name, age,
-      gender, height, weight, goal
+      email, password, name,
+      age, gender, height,
+      weight, activityLevel, goal
     } = req.body;
 
     // check existing user
@@ -29,11 +31,16 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // calculate BMI, BMR, and classify
+    const bmi = parseFloat(calculateBMI(weight, height).toFixed(1));
+    const bmr = calculateBMR(weight, height, age, gender, activityLevel);
+    const classification = getBMIInfo(bmi);
+
     await pool.query(
       `INSERT INTO users
-      (uid, email, password, name, age, gender, height, weight, goal)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [uid, email, hashedPassword, name, age, gender, height, weight, goal]
+      (uid, email, password, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [uid, email, hashedPassword, name, age, gender, height, weight, bmi, bmr, activityLevel, classification, goal]
     );
 
     const token = jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn: '7d' });
