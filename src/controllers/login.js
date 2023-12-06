@@ -1,5 +1,7 @@
+require('dotenv').config();
 const pool = require('../db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
   try {
@@ -7,7 +9,7 @@ const login = async (req, res) => {
 
     // check registered user
     const [user] = await pool.query(
-      `SELECT email, password FROM users WHERE email = ?`,
+      `SELECT uid, email, password FROM users WHERE email = ?`,
       [email]
     );
 
@@ -17,12 +19,13 @@ const login = async (req, res) => {
     };
 
     // check password
-    const isPasswordMatch = await bcrypt.compare(password, user[0].password);
+    const isPasswordMatch = await bcrypt.compare(password, user[0]['password']);
     if (!isPasswordMatch) {
       return res.status(401).json({ message: 'invalid password' });
     }
 
-    return res.status(200).json({ message: 'login success!' });
+    const token = jwt.sign({ 'uid': user[0]['uid'] }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    return res.status(200).json({ message: 'login success!', token });
   } catch (error) {
     // server error
     console.log(error);

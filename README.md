@@ -1,4 +1,4 @@
-# 📄 SehatIn API Documentation
+# 📄 SehatIn API
 ⚙️ This API is currently under active development.
 
 ## 🔗 Base URL

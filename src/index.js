@@ -3,10 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
 
-// === Controllers === //
-const { register } = require('./controllers/register');
-const { login } = require('./controllers/login');
-
 const app = express();
 const port = process.env.PORT || 8080;
 const env = process.env.ENV;
@@ -26,13 +22,14 @@ app.listen(port, () => {
 });
 
 // === ROUTES === //
-
 app.get('/', async (req, res) => {
   res.status(200).json({ message: 'Welcome to SehatIn API!' });
 });
 
 // register a new user
+const { register } = require('./controllers/register');
 app.post('/register', register);
 
 // login to an existing account
+const { login } = require('./controllers/login');
 app.post('/login', login);
