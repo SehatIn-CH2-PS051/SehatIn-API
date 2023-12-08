@@ -9,17 +9,25 @@ Send your request body in JSON.
 
 ### 1. Register a New User
 #### POST /register
-- email: (String)
-- password: (String)
-- name: (String)
-- age: (Int, required)
-- gender: (String: 'male', 'female')
-- height: (Int)
-- weight: (Int)
-- activityLevel: (String)
-- goal: (String: 'gain', 'maintain', 'lose')
+```
+{
+  email: string,
+  password: string,
+  name: string,
+  age: number,
+  gender: 'male' || 'female',
+  height: number,
+  weight: number,
+  activityLevel: 'sedentary' || 'lightly active' || 'moderately active' || 'very active' || 'extra active',
+  goal: 'gain' || 'maintain' || 'lose'
+}
+```
 
 ### 2. Login
 #### POST /login
-- email: (String)
-- password: (String)
+```
+{
+  email: string,
+  password: string,
+}
+```
