@@ -2,15 +2,15 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const { isValidEmail } = require('../lib/validation');
-const { calculateBMI, calculateBMR, getBMIInfo } = require('../lib/bmi');
+const { isValidEmail } = require('../helpers/validation');
+const { calculateBMI, calculateBMR, getBMIInfo } = require('../helpers/bmi');
 
 const register = async (req, res) => {
   try {
     const {
       email, password, name,
       age, gender, height,
-      weight, activityLevel, goal
+      weight, activity_level, goal
     } = req.body;
 
     // validate email
@@ -19,16 +19,17 @@ const register = async (req, res) => {
         code: 400,
         status: 'Bad Request',
         message: 'Please input a valid email address!'
-      })
+      });
     }
 
     // validate gender
-    if (!gender || gender !== 'male' && gender !== 'female') {
+    const allowedGenders = ['male', 'female'];
+    if (!allowedGenders.includes(gender)) {
       return res.status(400).json({
         code: 400,
         status: 'Bad Request',
-        message: 'Gender should only be male or female!'
-      })
+        message: 'gender should only be male or female.'
+      });
     }
 
     // validate age, weight, height
@@ -36,17 +37,31 @@ const register = async (req, res) => {
       return res.status(400).json({
         code: 400,
         status: 'Bad Request',
-        message: 'Invalid data type(s)!'
-      })
+        message: 'age, height, and weight should be in type of number.'
+      });
     }
 
-    // validate goal
-    if (!goal || goal !== 'gain' && goal !== 'maintain' && goal !== 'lose') {
+    // validate activity level
+    const allowedActivityLevels = [
+      'sedentary', 'lightly active', 'moderately active',
+      'very active', 'extra active'
+    ]
+    if (!allowedActivityLevels.includes(activity_level)) {
       return res.status(400).json({
         code: 400,
         status: 'Bad Request',
-        message: 'Goal should only be gain, maintain, or lose!'
-      })
+        message: 'invalid activity level provided.'
+      });
+    }
+
+    // validate goal
+    const allowedGoals = ['gain', 'maintain', 'lose'];
+    if (!allowedGoals.includes(goal)) {
+      return res.status(400).json({
+        code: 400,
+        status: 'Bad Request',
+        message: 'goal should only be gain, maintain, or lose.'
+      });
     }
 
     // check existing user
@@ -60,7 +75,7 @@ const register = async (req, res) => {
       return res.status(409).json({
         code: 409,
         status: 'Conflict',
-        message: 'User already exist!'
+        message: 'user already exist.'
       });
     };
 
@@ -74,7 +89,7 @@ const register = async (req, res) => {
 
     // calculate BMI, BMR, and classify
     const bmi = parseFloat(calculateBMI(weight, height).toFixed(1));
-    const bmr = calculateBMR(weight, height, age, gender, activityLevel);
+    const bmr = calculateBMR(weight, height, age, gender, activity_level);
     const classification = getBMIInfo(bmi);
 
     await pool.query(
@@ -88,20 +103,20 @@ const register = async (req, res) => {
       `INSERT INTO users_data
       (user, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [uid, name, age, gender, height, weight, bmi, bmr, activityLevel, classification, goal]
+      [uid, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal]
     );
 
     const token = jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.status(200).json({
+    return res.status(200).json({
       code: 200,
-      Status: 'Ok',
+      status: 'OK',
       message: 'Registration success!',
       token
     });
   } catch (error) {
     // server error
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       code: 500,
       status: 'Internal Server Error',
       message: 'There is an error on our side :('

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const { auth } = require('./helpers/auth');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -23,7 +24,11 @@ app.listen(port, () => {
 
 // === ROUTES === //
 app.get('/', async (req, res) => {
-  res.status(200).json({ message: 'Welcome to SehatIn API!' });
+  res.status(200).json({
+    code: 200,
+    status: 'OK',
+    message: 'Welcome to SehatIn API!'
+  });
 });
 
 // register a new user
@@ -33,3 +38,6 @@ app.post('/register', register);
 // login to an existing account
 const { login } = require('./controllers/login');
 app.post('/login', login);
+
+const { update } = require('./controllers/update');
+app.put('/user/:field', auth, update);
