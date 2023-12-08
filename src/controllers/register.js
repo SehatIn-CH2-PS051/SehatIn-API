@@ -2,6 +2,7 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const { isValidEmail } = require('../lib/validation');
 const { calculateBMI, calculateBMR, getBMIInfo } = require('../lib/bmi');
 
 const register = async (req, res) => {
@@ -12,15 +13,55 @@ const register = async (req, res) => {
       weight, activityLevel, goal
     } = req.body;
 
+    // validate email
+    if (!isValidEmail(email)) {
+      return res.status(400).json({
+        code: 400,
+        status: 'Bad Request',
+        message: 'Please input a valid email address!'
+      })
+    }
+
+    // validate gender
+    if (!gender || gender !== 'male' && gender !== 'female') {
+      return res.status(400).json({
+        code: 400,
+        status: 'Bad Request',
+        message: 'Gender should only be male or female!'
+      })
+    }
+
+    // validate age, weight, height
+    if (!Number.isInteger(age) || !Number.isInteger(weight) || !Number.isInteger(height)) {
+      return res.status(400).json({
+        code: 400,
+        status: 'Bad Request',
+        message: 'Invalid data type(s)!'
+      })
+    }
+
+    // validate goal
+    if (!goal || goal !== 'gain' && goal !== 'maintain' && goal !== 'lose') {
+      return res.status(400).json({
+        code: 400,
+        status: 'Bad Request',
+        message: 'Goal should only be gain, maintain, or lose!'
+      })
+    }
+
     // check existing user
     const [user] = await pool.query(
-      `SELECT email FROM users WHERE email = ?`,
+      `SELECT email FROM users_creds WHERE email = ?`,
       [email]
     );
 
     // user already existed
     if (user.length > 0) {
-      return res.status(409).json({ message: 'user already existed' });
+      return res.status(409).json({
+        code: 409,
+        status: 'Conflict',
+        message: 'User already exist!'
+      });
     };
 
     // generate a unique id
@@ -37,18 +78,34 @@ const register = async (req, res) => {
     const classification = getBMIInfo(bmi);
 
     await pool.query(
-      `INSERT INTO users
-      (uid, email, password, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [uid, email, hashedPassword, name, age, gender, height, weight, bmi, bmr, activityLevel, classification, goal]
+      `INSERT INTO users_creds
+      (uid, email, password)
+      VALUES (?, ?, ?)`,
+      [uid, email, hashedPassword]
+    );
+
+    await pool.query(
+      `INSERT INTO users_data
+      (user, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [uid, name, age, gender, height, weight, bmi, bmr, activityLevel, classification, goal]
     );
 
     const token = jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.status(200).json({ message: 'registration success!', token });
+    res.status(200).json({
+      code: 200,
+      Status: 'Ok',
+      message: 'Registration success!',
+      token
+    });
   } catch (error) {
     // server error
     console.log(error);
-    res.status(500).json({ message: 'there is an error on our side :(' });
+    res.status(500).json({
+      code: 500,
+      status: 'Internal Server Error',
+      message: 'There is an error on our side :('
+    });
   };
 };
 
