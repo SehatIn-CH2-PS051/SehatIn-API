@@ -40,4 +40,4 @@ const { login } = require('./controllers/login');
 app.post('/login', login);
 
 const { update } = require('./controllers/update');
-app.put('/user/:field', auth, update);
+app.put('/user', auth, update);

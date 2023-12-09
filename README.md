@@ -48,21 +48,24 @@ You should include the auth token in your request header each time you call thes
 }
 ```
 ---
-#### PUT /user/:data-to-modify
-Allowed data to modify include:
+#### PUT /user
+Allowed data to update include:
 - name
+- gender
 - age
 - height
 - weight
 - activity_level
 - goal
 
-Make sure the last URL segment match your request body.
+You can update all data together or just one at a time. Just specify the data and the new value in your request body.
 
 **example:**
 ```javascript
-// PUT /user/age
+// update the currently logged in user's:
+// age to 30 and height to 190
 {
- age: 25
+ age: 30,
+ height: 190
 }
 ```
