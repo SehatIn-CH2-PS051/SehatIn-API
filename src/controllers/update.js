@@ -8,6 +8,30 @@ const {
 } = require('../helpers/validation');
 
 const update = async (req, res) => {
+  // allowed data to update
+  const allowedData = [
+    'name', 'age', 'gender', 'height',
+    'weight', 'activity_level', 'goal'
+  ];
+
+  let isValidRequest = false;
+
+  // check for valid property
+  for (data in req.body) {
+    if (allowedData.includes(data)) {
+      isValidRequest = true;
+      break;
+    };
+  };
+
+  if (!isValidRequest) {
+    return res.status(400).json({
+      code: 400,
+      status: 'Bad Request',
+      message: 'You didn\'t specify an allowed data to update.'
+    });
+  };
+
   const {
     name, age, gender, height,
     weight, activity_level, goal
@@ -21,7 +45,7 @@ const update = async (req, res) => {
       status: 'Bad Request',
       message: 'age, height, and weight should be in type of number.'
     });
-  }
+  };
 
   // validate gender
   if (isValidGender(gender) === false) {
@@ -29,8 +53,8 @@ const update = async (req, res) => {
       code: 400,
       status: 'Bad Request',
       message: 'gender should only be male or female.'
-    })
-  }
+    });
+  };
 
   // validate activity level
   if (isValidActivityLevels(activity_level) === false) {
@@ -39,7 +63,7 @@ const update = async (req, res) => {
       status: 'Bad Request',
       message: 'invalid activity level provided.'
     });
-  }
+  };
 
   // validate goal
   if(isValidGoal(goal) === false) {

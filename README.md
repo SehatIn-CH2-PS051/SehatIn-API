@@ -50,22 +50,34 @@ You should include the auth token in your request header each time you call thes
 ---
 #### PUT /user
 Allowed data to update include:
-- name
-- gender
-- age
-- height
-- weight
-- activity_level
-- goal
-
-You can update all data together or just one at a time. Just specify the data and the new value in your request body.
-
-**example:**
 ```javascript
-// update the currently logged in user's:
-// age to 30 and height to 190
+{
+  name: string,
+  age: number,
+  gender: 'male' || 'female',
+  height: number,
+  weight: number,
+  activity_level: 'sedentary' || 'lightly active' || 'moderately active' || 'very active' || 'extra active',
+  goal: 'gain' || 'maintain' || 'lose'
+}
+```
+
+You can update all data together or just one at a time. Just specify the data and the new value in your request body. Keep in mind that data validation will still be in place.
+
+**Example 1:**
+```javascript
+// single update
+{
+ activity_level: "sedentary"
+}
+```
+
+**Example 2:**
+```javascript
+// multiple update
 {
  age: 30,
- height: 190
+ weight: 78,
+ goal: "gain"
 }
 ```
