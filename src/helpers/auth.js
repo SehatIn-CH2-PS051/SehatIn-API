@@ -4,12 +4,10 @@ const auth = async (req, res, next) => {
   try {
     const token = req.header('Auth');
 
+    // use default user if there is no token
     if (!token) {
-      return res.status(401).json({
-        code: 401,
-        status: 'Unauthorized',
-        message: 'No auth token provided.'
-      })
+      req.uid = 'b7acaa13da2d';
+      next();
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

@@ -101,7 +101,7 @@ const register = async (req, res) => {
 
     await pool.query(
       `INSERT INTO users_data
-      (user, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
+      (uid, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [uid, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal]
     );

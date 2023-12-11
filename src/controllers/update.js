@@ -76,7 +76,7 @@ const update = async (req, res) => {
 
   const [oldData] = await pool.query(
     `SELECT name, age, gender, height, weight, bmi, bmr, activity_level, goal FROM users_data
-    WHERE user = ?`,
+    WHERE uid = ?`,
     [uid]
   );
 
@@ -105,7 +105,7 @@ const update = async (req, res) => {
       weight = ?, bmi = ?,
       bmr = ?, classification = ?,
       activity_level = ?, goal = ?
-    WHERE user = ?`,
+    WHERE uid = ?`,
     [
       newData['name'], newData['age'], newData['gender'],
       newData['height'], newData['weight'], newBMI,
