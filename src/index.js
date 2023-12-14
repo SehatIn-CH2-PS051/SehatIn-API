@@ -1,18 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db');
+const multer = require('multer');
 const { auth } = require('./helpers/auth');
 
 const app = express();
 const port = process.env.PORT || 8080;
 const env = process.env.ENV;
 
+// Multer configuration for handling file uploads
+const multerStorage = multer.memoryStorage();
+const multerUpload = multer({ storage: multerStorage });
+
 // allow CORS from * Origin
 app.use(cors());
-
 // parse incoming request JSON payloads
 app.use(express.json());
+// Parse URL-encoded data
+app.use(express.urlencoded({ extended: false }));
 
 app.listen(port, () => {
   if (env === 'dev') {
@@ -39,5 +44,10 @@ app.post('/register', register);
 const { login } = require('./controllers/login');
 app.post('/login', login);
 
+// update user's data
 const { update } = require('./controllers/update');
 app.put('/user', auth, update);
+
+// get food's data
+const { getFoodData } = require('./controllers/getFoodData');
+app.post('/food', auth, multerUpload.single('file'), getFoodData);

@@ -113,9 +113,9 @@ const register = async (req, res) => {
       message: 'Registration success!',
       token
     });
-  } catch (error) {
+  } catch (err) {
     // server error
-    console.log(error);
+    console.error(err);
     return res.status(500).json({
       code: 500,
       status: 'Internal Server Error',

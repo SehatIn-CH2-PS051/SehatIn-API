@@ -8,11 +8,12 @@ const auth = async (req, res, next) => {
     if (!token) {
       req.uid = 'b7acaa13da2d';
       next();
+    } else {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.uid = decoded.uid;
+      next();
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.uid = decoded.uid;
-    next();
   } catch (error) {
     console.log(error);
     return res.status(401).json({

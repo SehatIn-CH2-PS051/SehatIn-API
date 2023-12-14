@@ -1,4 +1,3 @@
-require('dotenv').config();
 const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -35,14 +34,14 @@ const login = async (req, res) => {
     const token = jwt.sign({ 'uid': user[0]['uid'] }, process.env.JWT_SECRET, { expiresIn: '7d' });
     return res.status(200).json({
       code: 200,
-      status: 'Ok',
+      status: 'OK',
       message: 'Login success!',
       token
     });
-  } catch (error) {
+  } catch (err) {
     // server error
-    console.log(error);
-    res.status(500).json({
+    console.error(err);
+    return res.status(500).json({
       code: 500,
       status: 'Internal Server Error',
       message: 'There is an error on our side :('
