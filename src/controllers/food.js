@@ -1,14 +1,15 @@
 const { Storage } = require('@google-cloud/storage');
+const path = require('path');
 const axios = require('axios');
 
 // initialize GCP bucket
 const storage = new Storage({
-  keyFilename: 'keys.json',
+  keyFilename: path.join(__dirname, '../../keys.json'),
   projectId: process.env.PROJECT_ID,
 });
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
-const getFoodData = async (req, res) => {
+const food = async (req, res) => {
   try {
     const { file } = req;
 
@@ -52,4 +53,4 @@ const getFoodData = async (req, res) => {
   }
 };
 
-module.exports = { getFoodData };
+module.exports = { food };

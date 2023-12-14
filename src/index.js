@@ -49,5 +49,5 @@ const { update } = require('./controllers/update');
 app.put('/user', auth, update);
 
 // get food's data
-const { getFoodData } = require('./controllers/getFoodData');
-app.post('/food', auth, multerUpload.single('file'), getFoodData);
+const { food } = require('./controllers/food');
+app.post('/food', auth, multerUpload.single('file'), food);
