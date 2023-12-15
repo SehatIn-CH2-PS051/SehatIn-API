@@ -83,10 +83,10 @@ You can update multiple data with a single request. Just specify the data parame
  goal: "gain"
 }
 ```
-
+---
 #### POST /food
 The endpoint to upload your food image and get the detail of it.
 
-Send your request body in *form-data* **type** with the **key** of *file* and the *image* for the **value**:
+Send your request body in *form-data* **type** with the **key** of "file" and the actual food *image* for the **value**:
 
 ![example-in-postman](https://storage.googleapis.com/sehatin-users-images/example-in-postman.jpg)

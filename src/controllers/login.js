@@ -17,7 +17,7 @@ const login = async (req, res) => {
       return res.status(401).json({
         code: 401,
         status: 'Unauthorized',
-        message: 'Email is not registered!'
+        message: 'Email is not registered.'
       });
     };
 
@@ -27,16 +27,24 @@ const login = async (req, res) => {
       return res.status(401).json({
         code: 401,
         status: 'Unauthorized',
-        message: 'Invalid password!'
+        message: 'Invalid password.'
       });
     }
+
+    // get user's data
+    const [userData] = await pool.query(
+      `SELECT name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal
+      FROM users_data WHERE uid = ?`,
+      [user[0]['uid']]
+    );
 
     const token = jwt.sign({ 'uid': user[0]['uid'] }, process.env.JWT_SECRET, { expiresIn: '7d' });
     return res.status(200).json({
       code: 200,
       status: 'OK',
-      message: 'Login success!',
-      token
+      message: 'Login success.',
+      token,
+      data: userData[0]
     });
   } catch (err) {
     // server error

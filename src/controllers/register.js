@@ -111,7 +111,13 @@ const register = async (req, res) => {
       code: 200,
       status: 'OK',
       message: 'Registration success!',
-      token
+      token,
+      data: {
+        name, age, gender,
+        height, weight, bmi,
+        bmr, activity_level,
+        classification, goal
+      }
     });
   } catch (err) {
     // server error
