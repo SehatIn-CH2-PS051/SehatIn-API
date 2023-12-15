@@ -3,10 +3,8 @@ const path = require('path');
 const axios = require('axios');
 
 // initialize GCP bucket
-const storage = new Storage({
-  keyFilename: path.join(__dirname, '../../keys.json'),
-  projectId: process.env.PROJECT_ID,
-});
+const storage = new Storage();
+
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 const food = async (req, res) => {

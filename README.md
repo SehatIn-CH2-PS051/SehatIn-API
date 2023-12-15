@@ -11,8 +11,8 @@ Send your request body in JSON.
 
 ---
 #### POST /register
+The endpoint to register a new user.
 ```javascript
-// register a new account
 {
   email: string,
   password: string,
@@ -27,8 +27,8 @@ Send your request body in JSON.
 ```
 ---
 #### POST /login
+The endpoint to login to an existing account.
 ```javascript
-// login to an existing account
 {
   email: "testuser@fakemail.com",
   password: "Password123",
@@ -36,7 +36,7 @@ Send your request body in JSON.
 ```
 ---
 ### 🗝️ Protected Endpoints
-Upon a successful registration and login attempt you will be granted an auth token. Store this token securely as it will allow the API to identify the account associated with your requests.
+Upon a successful registration and login attempt you will be granted an Auth token. Store this token securely as it will allow the API to identify the account associated with your requests.
 
 You should include the auth token in your request header each time you call these protected endpoints.
 
@@ -49,6 +49,8 @@ You should include the auth token in your request header each time you call thes
 ```
 ---
 #### PUT /user
+The endpoint to update user's data.
+
 Allowed data to update include:
 ```javascript
 {
@@ -62,7 +64,7 @@ Allowed data to update include:
 }
 ```
 
-You can update all data together or just one at a time. Just specify the data and the new value in your request body. Keep in mind that data validation will still be in place.
+You can update multiple data with a single request. Just specify the data parameter(s) and the new value(s) in your request body. Keep in mind that data validation will still be in place.
 
 **Example 1:**
 ```javascript
@@ -81,3 +83,10 @@ You can update all data together or just one at a time. Just specify the data an
  goal: "gain"
 }
 ```
+
+#### POST /food
+The endpoint to upload your food image and get the detail of it.
+
+Send your request body in *form-data* **type** with the **key** of *file* and the *image* for the **value**:
+
+![example-in-postman](https://storage.googleapis.com/sehatin-users-images/example-in-postman.jpg)
