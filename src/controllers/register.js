@@ -94,14 +94,14 @@ const register = async (req, res) => {
 
     await pool.query(
       `INSERT INTO users_creds
-      (uid, email, password)
+      (id, email, password)
       VALUES (?, ?, ?)`,
       [uid, email, hashedPassword]
     );
 
     await pool.query(
       `INSERT INTO users_data
-      (uid, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
+      (user_id, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [uid, name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal]
     );

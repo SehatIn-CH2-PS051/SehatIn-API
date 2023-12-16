@@ -1,10 +1,8 @@
 const { Storage } = require('@google-cloud/storage');
-const path = require('path');
 const axios = require('axios');
 
 // initialize GCP bucket
 const storage = new Storage();
-
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 const food = async (req, res) => {
@@ -38,6 +36,7 @@ const food = async (req, res) => {
       return res.status(200).json({
         code: 200,
         status: 'OK',
+        nama: result.data.detected_objects[0]['food_name'],
         data: foodDetail.data.data
       });
     });

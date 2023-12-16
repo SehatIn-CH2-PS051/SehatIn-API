@@ -10,7 +10,7 @@ https://sehatin-api-64zqryr67a-et.a.run.app
 Send your request body in JSON.
 
 ---
-#### POST /register
+### POST /register
 The endpoint to register a new user.
 ```javascript
 {
@@ -26,7 +26,7 @@ The endpoint to register a new user.
 }
 ```
 ---
-#### POST /login
+### POST /login
 The endpoint to login to an existing account.
 ```javascript
 {
@@ -40,7 +40,7 @@ Upon a successful registration and login attempt you will be granted an Auth tok
 
 You should include the auth token in your request header each time you call these protected endpoints.
 
-#### GET /protected
+### GET /protected
 ```javascript
 // request header
 {
@@ -48,7 +48,7 @@ You should include the auth token in your request header each time you call thes
 }
 ```
 ---
-#### PUT /user
+### PUT /user
 The endpoint to update user's data.
 
 Allowed data to update include:
@@ -66,15 +66,13 @@ Allowed data to update include:
 
 You can update multiple data with a single request. Just specify the data parameter(s) and the new value(s) in your request body. Keep in mind that data validation will still be in place.
 
-**Example 1:**
+**Example 👇**
 ```javascript
 // single update
 {
  activity_level: "sedentary"
 }
 ```
-
-**Example 2:**
 ```javascript
 // multiple update
 {
@@ -84,9 +82,72 @@ You can update multiple data with a single request. Just specify the data parame
 }
 ```
 ---
-#### POST /food
-The endpoint to upload your food image and get the detail of it.
+### POST /food
+The endpoint to get the detail of your food.
 
 Send your request body in *form-data* **type** with the **key** of "file" and the actual food *image* for the **value**:
 
 ![example-in-postman](https://storage.googleapis.com/sehatin-users-images/example-in-postman.jpg)
+---
+### POST /eat-log
+The endpoint to post your eating logs.
+
+After a successful **POST** request to **/food** you will get a response containing multiple info of the food you just ate. These food's info is vary based on its portion. The idea is to **POST** request to the /**eat-log** endpoint with one (based on your portion) of the food's info as the request body.
+
+**Example 👇**
+
+**POST /food**'s response:
+```javascript
+{
+  code: 200,
+  status: "OK",
+  nama: "Tempe",
+  data: [
+    {
+      detail: {
+        Karbohidrat: "9,39g",
+        Lemak: "10,8g",
+        Protein: "18,54g"
+      },
+      kalori: "55 kkal",
+      porsi: "1 ons"
+    },
+    {
+      detail: {
+        Karbohidrat: "9,39g",
+        Lemak: "10,8g",
+        Protein: "18,54g"
+      },
+      kalori: "193 kkal",
+      porsi: "100 gram (g)"
+    },
+    {
+      detail: {
+        Karbohidrat: "9,39g",
+        Lemak: "10,8g",
+        Protein: "18,54g"
+      },
+      kalori: "320 kkal",
+      porsi: "1 mangkok"
+    }
+  ]
+}
+```
+
+Notice that there are multiple object (food's info) in the **data** property. As mentioned before, each of them is vary based on its portion.
+
+The next step is to make a **POST** request to the **/eat-log** endpoint with the food's name and one of the food's info as the request body:
+
+```javascript
+{
+  nama: "Tempe",
+  detail: {
+    Karbohidrat: "9,39g",
+    Lemak: "10,8g",
+    Protein: "18,54g"
+  },
+  kalori: "320 kkal",
+  porsi: "1 mangkok"
+}
+```
+---

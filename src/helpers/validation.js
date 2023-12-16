@@ -41,10 +41,25 @@ const isValidGoal = (goal) => {
   return true;
 };
 
+const parseNumericValue = (inputString) => {
+  // Use a regular expression to extract numeric values
+  const matches = inputString.match(/(\d+(\,\d+)?)|(\d+)/);
+
+  if (matches && matches[0]) {
+    // Replace comma with dot and parse as a float
+    const numericValue = matches[0].replace(',', '.');
+    return parseFloat(numericValue);
+  }
+
+  // Return NaN if no numeric value is found
+  return NaN;
+}
+
 module.exports = {
   isValidEmail,
   isValidGender,
   isIntegers,
   isValidActivityLevels,
-  isValidGoal
+  isValidGoal,
+  parseNumericValue
 };

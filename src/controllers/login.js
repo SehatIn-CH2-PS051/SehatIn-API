@@ -8,7 +8,7 @@ const login = async (req, res) => {
 
     // check registered user
     const [user] = await pool.query(
-      `SELECT uid, email, password FROM users_creds WHERE email = ?`,
+      `SELECT id, email, password FROM users_creds WHERE email = ?`,
       [email]
     );
 
@@ -34,11 +34,11 @@ const login = async (req, res) => {
     // get user's data
     const [userData] = await pool.query(
       `SELECT name, age, gender, height, weight, bmi, bmr, activity_level, classification, goal
-      FROM users_data WHERE uid = ?`,
+      FROM users_data WHERE user_id = ?`,
       [user[0]['uid']]
     );
 
-    const token = jwt.sign({ 'uid': user[0]['uid'] }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ 'uid': user[0]['id'] }, process.env.JWT_SECRET, { expiresIn: '7d' });
     return res.status(200).json({
       code: 200,
       status: 'OK',
