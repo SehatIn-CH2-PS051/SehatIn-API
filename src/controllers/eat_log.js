@@ -2,11 +2,14 @@ const pool = require('../db');
 const crypto = require('crypto');
 const { parseNumericValue } = require('../helpers/validation');
 
-const eatLog = async (req, res) => {
+const postEatLog = async (req, res) => {
   try {
     const { uid } = req;
-    const { nama, detail, kalori, porsi } = req.body;
-    const { Karbohidrat, Protein, Lemak } = detail;
+    const { nama, detail, porsi } = req.body;
+    const kalori = parseNumericValue(req.body.kalori);
+    const Karbohidrat = parseNumericValue(detail.Karbohidrat);
+    const Protein = parseNumericValue(detail.Protein);
+    const Lemak = parseNumericValue(detail.Lemak);
 
     // generate a unique id
     const randomBuffer = crypto.randomBytes(6);
@@ -16,19 +19,21 @@ const eatLog = async (req, res) => {
       `INSERT INTO eat_logs
       (id, user_id, food, portion, calories, carbs, prots, fats, date, time)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE(), CURRENT_TIME())`,
-      [
-        id, uid, nama, porsi,
-        parseNumericValue(kalori),
-        parseNumericValue(Karbohidrat),
-        parseNumericValue(Protein),
-        parseNumericValue(Lemak)
-      ]
+      [id, uid, nama, porsi, kalori, Karbohidrat, Protein, Lemak]
+    );
+
+    const [log] = await pool.query(
+      `SELECT id, food, portion, calories,
+      carbs, prots, fats, message, date,
+      time FROM eat_logs WHERE id = ?`,
+      [id]
     );
 
     return res.status(200).json({
       code: 200,
       status: 'OK',
-      message: 'Log successfully added.'
+      message: 'Log successfully added.',
+      data: log[0]
     });
   } catch (err) {
     // server error
@@ -41,4 +46,31 @@ const eatLog = async (req, res) => {
   }
 };
 
-module.exports = { eatLog };
+const getEatLog = async (req, res) => {
+  try {
+    const { uid } = req;
+
+    const [logs] = await pool.query(
+      `SELECT id, food, portion, calories,
+      carbs, prots, fats, message, date,
+      time FROM eat_logs WHERE user_id = ?`,
+      [uid]
+    );
+
+    return res.status(200).json({
+      code: 200,
+      status: 'OK',
+      data: logs
+    })
+  } catch (err) {
+    // server error
+    console.error(err);
+    return res.status(500).json({
+      code: 500,
+      status: 'Internal Server Error',
+      message: 'There is an error on our side :('
+    });
+  }
+}
+
+module.exports = { postEatLog, getEatLog };

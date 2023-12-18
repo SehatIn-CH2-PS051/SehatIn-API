@@ -13,6 +13,7 @@ Send your request body in JSON.
 ### POST /register
 The endpoint to register a new user.
 ```javascript
+// request body
 {
   email: string,
   password: string,
@@ -29,6 +30,7 @@ The endpoint to register a new user.
 ### POST /login
 The endpoint to login to an existing account.
 ```javascript
+// request body
 {
   email: "testuser@fakemail.com",
   password: "Password123",
@@ -139,6 +141,7 @@ Notice that there are multiple object (food's info) in the **data** property. As
 The next step is to make a **POST** request to the **/eat-log** endpoint with the food's name and one of the food's info as the request body:
 
 ```javascript
+// request body
 {
   nama: "Tempe",
   detail: {
@@ -151,3 +154,27 @@ The next step is to make a **POST** request to the **/eat-log** endpoint with th
 }
 ```
 ---
+### GET /eat-log
+The endpoint to get the user's eating logs.
+
+```javascript
+// response body
+{
+  code: 200,
+    status: "OK",
+    data: [
+      {
+        id: "b0218f50d96a",
+        food: "Tempe",
+        portion: "1 ons",
+        calories: 55,
+        carbs: 9.39,
+        prots: 18.54,
+        fats: 10.8,
+        message: null,
+        date: "2023-12-14T17:00:00.000Z",
+        time: "17:26:56"
+      }
+    ]
+}
+```

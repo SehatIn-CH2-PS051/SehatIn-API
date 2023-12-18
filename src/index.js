@@ -52,5 +52,10 @@ app.put('/user', auth, update);
 const { food } = require('./controllers/food');
 app.post('/food', auth, multerUpload.single('file'), food);
 
-const { eatLog } = require('./controllers/eat_log');
-app.post('/eat-log', auth, eatLog);
+// post eating logs
+const { postEatLog } = require('./controllers/eat_log');
+app.post('/eat-log', auth, postEatLog);
+
+// get eating logs
+const { getEatLog } = require('./controllers/eat_log');
+app.get('/eat-log', auth, getEatLog);
