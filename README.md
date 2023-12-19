@@ -10,7 +10,7 @@ https://sehatin-api-64zqryr67a-et.a.run.app
 Send your request body in JSON.
 
 ---
-### POST /register
+### 📝 POST /register
 The endpoint to register a new user.
 ```javascript
 // request body
@@ -27,7 +27,7 @@ The endpoint to register a new user.
 }
 ```
 ---
-### POST /login
+### 🔐 POST /login
 The endpoint to login to an existing account.
 ```javascript
 // request body
@@ -50,7 +50,12 @@ You should include the auth token in your request header each time you call thes
 }
 ```
 ---
-### PUT /user
+### 🚹 GET /user
+
+The endpoint to retrieve the user's data.
+
+---
+### ✏️ PUT /user
 The endpoint to update user's data.
 
 Allowed data to update include:
@@ -84,14 +89,14 @@ You can update multiple data with a single request. Just specify the data parame
 }
 ```
 ---
-### POST /food
+### 🍕 POST /food
 The endpoint to get the detail of your food.
 
 Send your request body in *form-data* **type** with the **key** of "file" and the actual food *image* for the **value**:
 
 ![example-in-postman](https://storage.googleapis.com/sehatin-users-images/example-in-postman.jpg)
 ---
-### POST /eat-log
+### 🥪 POST /eat-log
 The endpoint to post your eating logs.
 
 After a successful **POST** request to **/food** you will get a response containing multiple info of the food you just ate. These food's info is vary based on its portion. The idea is to **POST** request to the /**eat-log** endpoint with one (based on your portion) of the food's info as the request body.
@@ -154,7 +159,7 @@ The next step is to make a **POST** request to the **/eat-log** endpoint with th
 }
 ```
 ---
-### GET /eat-log
+### 📃 GET /eat-log
 The endpoint to get the user's eating logs.
 
 ```javascript
