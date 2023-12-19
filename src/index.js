@@ -44,6 +44,10 @@ app.post('/register', register);
 const { login } = require('./controllers/login');
 app.post('/login', login);
 
+// get user's data
+const { getUserData } = require('./controllers/user');
+app.get('/user', auth, getUserData);
+
 // update user's data
 const { update } = require('./controllers/update');
 app.put('/user', auth, update);

@@ -41,4 +41,19 @@ const getBMIInfo = (bmi) => {
   } else return "obese";
 }
 
-module.exports = { calculateBMI, calculateBMR, getBMIInfo };
+const calculateCalorieIntake = (bmr, goal) => {
+  if (goal === 'maintain') {
+    return bmr;
+  } else if (goal === 'lose') {
+    return bmr - 1000;
+  } else if (goal === 'gain') {
+    return bmr + 1000;
+  }
+};
+
+module.exports = {
+  calculateBMI,
+  calculateBMR,
+  getBMIInfo,
+  calculateCalorieIntake,
+};
