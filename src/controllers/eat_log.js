@@ -53,7 +53,7 @@ const getEatLog = async (req, res) => {
     const [logs] = await pool.query(
       `SELECT id, food, portion, calories,
       carbs, prots, fats, message, date,
-      time FROM eat_logs WHERE user_id = ?`,
+      time, image_url FROM eat_logs WHERE user_id = ?`,
       [uid]
     );
 
