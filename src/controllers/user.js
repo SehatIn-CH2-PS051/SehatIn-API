@@ -11,7 +11,7 @@ const getUserData = async (req, res) => {
     [uid]
   );
 
-  const calorieIntake = calculateCalorieIntake(userData[0]['bmr'], userData[0]['goal']);
+  const calorieIntake = calculateCalorieIntake(userData[0]['bmr'], userData[0]['activity_level']);
   console.log(calorieIntake);
 
   return res.status(200).json({

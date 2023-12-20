@@ -92,8 +92,8 @@ const update = async (req, res) => {
   // calculate new BMI, BMR and reclassify the user
   const newBMI = parseFloat(calculateBMI(newData['weight'], newData['height']).toFixed(1));
   const newBMR = calculateBMR(
-    newData['weight'], newData['height'], newData['age'],
-    newData['gender'], newData['activity_level']
+    newData['weight'], newData['height'],
+    newData['age'], newData['gender']
   );
   const newClassification = getBMIInfo(newBMI);
 

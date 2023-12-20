@@ -6,30 +6,12 @@ const calculateBMI = (weight, height) => {
   return bmi;
 }
 
-const calculateBMR = (weight, height, age, gender, activityLevel) => {
-  if (gender.toLowerCase() === 'male') {
-    bmr = (10 * weight) + (6.25 * height) - (5.0 * age) + 5;
-  } else if (gender.toLowerCase() === 'female') {
-    bmr = (10 * weight) + (6.25 * height) - (5.0 * age) - 161;
-  } else {
-    throw new Error("Invalid gender provided. Please input 'male' or 'female'.");
-  }
-
-  const activityFactors = {
-    'sedentary': 1.2, // little to no exercise, desk job
-    'lightly active': 1.375, // exercise 1 to 3 days per week
-    'moderately active': 1.55, // exercise 3 to 5 days per week
-    'very active': 1.725, // exercise 6 to 7 days per week
-    'extra active': 1.9 // exercise 2x per day
-  };
-
-  if (activityFactors.hasOwnProperty(activityLevel.toLowerCase())) {
-    bmr *= activityFactors[activityLevel.toLowerCase()];
-  } else {
-    throw new Error("Invalid activity level provided.");
-  }
-
-  return bmr;
+const calculateBMR = (weight, height, age, gender) => {
+  if (gender.toLowerCase() === 'male') 
+    return (10 * weight) + (6.25 * height) - (5.0 * age) + 5;
+  
+  if (gender.toLowerCase() === 'female') 
+    return (10 * weight) + (6.25 * height) - (5.0 * age) - 161;
 }
 
 const getBMIInfo = (bmi) => {
@@ -41,14 +23,17 @@ const getBMIInfo = (bmi) => {
   } else return "obese";
 }
 
-const calculateCalorieIntake = (bmr, goal) => {
-  if (goal === 'maintain') {
-    return bmr;
-  } else if (goal === 'lose') {
-    return bmr - 1000;
-  } else if (goal === 'gain') {
-    return bmr + 1000;
-  }
+const calculateCalorieIntake = (bmr, activity_level) => {
+  if (activity_level === 'sedentary') 
+    return bmr * 1.2;
+  if (activity_level === 'lightly active') 
+    return bmr * 1.375;
+  if (activity_level === 'moderately active') 
+    return bmr * 1.55;
+  if (activity_level === 'very active')
+    return bmr * 1.725;
+  if (activity_level === 'extra active')
+    return bmr * 1.9;
 };
 
 module.exports = {

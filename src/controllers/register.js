@@ -89,7 +89,7 @@ const register = async (req, res) => {
 
     // calculate BMI, BMR, and classify
     const bmi = parseFloat(calculateBMI(weight, height).toFixed(1));
-    const bmr = calculateBMR(weight, height, age, gender, activity_level);
+    const bmr = calculateBMR(weight, height, age, gender);
     const classification = getBMIInfo(bmi);
 
     await pool.query(
