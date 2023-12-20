@@ -12,8 +12,7 @@ const getUserData = async (req, res) => {
   );
 
   const calorieIntake = calculateCalorieIntake(userData[0]['bmr'], userData[0]['activity_level']);
-  console.log(calorieIntake);
-
+  
   return res.status(200).json({
     code: 200,
     status: 'OK',

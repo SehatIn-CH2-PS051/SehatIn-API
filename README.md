@@ -54,6 +54,26 @@ You should include the auth token in your request header each time you call thes
 
 The endpoint to retrieve the user's data.
 
+```javascript
+// response body
+{
+  code: 200,
+  status: "OK",
+  user: {
+    name: "Default User",
+    age: 25,
+    gender: "male",
+    height: 185,
+    weight: 78,
+    bmi: 22.8,
+    bmr: 1816.25,
+    classification: "normal",
+    activity_level: "sedentary",
+    goal: "gain"
+  },
+  calorie_intake: 2179.5
+}
+```
 ---
 ### ✏️ PUT /user
 The endpoint to update user's data.
@@ -166,20 +186,20 @@ The endpoint to get the user's eating logs.
 // response body
 {
   code: 200,
-    status: "OK",
-    data: [
-      {
-        id: "b0218f50d96a",
-        food: "Tempe",
-        portion: "1 ons",
-        calories: 55,
-        carbs: 9.39,
-        prots: 18.54,
-        fats: 10.8,
-        message: null,
-        date: "2023-12-14T17:00:00.000Z",
-        time: "17:26:56"
-      }
-    ]
+  status: "OK",
+  data: [
+    {
+      id: "b0218f50d96a",
+      food: "Tempe",
+      portion: "1 ons",
+      calories: 55,
+      carbs: 9.39,
+      prots: 18.54,
+      fats: 10.8,
+      message: null,
+      date: "2023-12-14T17:00:00.000Z",
+      time: "17:26:56"
+    }
+  ]
 }
 ```
