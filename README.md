@@ -129,6 +129,7 @@ After a successful **POST** request to **/food** you will get a response contain
   code: 200,
   status: "OK",
   nama: "Tempe",
+  image_url: "https://storage.googleapis.com/sehatin-users-images/tempe.jpg",
   data: [
     {
       detail: {
@@ -163,12 +164,13 @@ After a successful **POST** request to **/food** you will get a response contain
 
 Notice that there are multiple object (food's info) in the **data** property. As mentioned before, each of them is vary based on its portion.
 
-The next step is to make a **POST** request to the **/eat-log** endpoint with the food's name and one of the food's info as the request body:
+The next step is to make a **POST** request to the **/eat-log** endpoint with the food's name, image URL and one of the food's info as the request body:
 
 ```javascript
 // request body
 {
   nama: "Tempe",
+  image_url: "https://storage.googleapis.com/sehatin-users-images/tempe.jpg",
   detail: {
     Karbohidrat: "9,39g",
     Lemak: "10,8g",

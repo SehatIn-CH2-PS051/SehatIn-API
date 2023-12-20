@@ -37,6 +37,7 @@ const food = async (req, res) => {
         code: 200,
         status: 'OK',
         nama: result.data.detected_objects[0]['food_name'],
+        image_url: image,
         data: foodDetail.data.data
       });
     });

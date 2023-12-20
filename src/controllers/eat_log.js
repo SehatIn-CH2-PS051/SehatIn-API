@@ -10,6 +10,7 @@ const postEatLog = async (req, res) => {
     const Karbohidrat = parseNumericValue(detail.Karbohidrat);
     const Protein = parseNumericValue(detail.Protein);
     const Lemak = parseNumericValue(detail.Lemak);
+    const image = req.body.image_url;
 
     // generate a unique id
     const randomBuffer = crypto.randomBytes(6);
@@ -17,9 +18,12 @@ const postEatLog = async (req, res) => {
 
     await pool.query(
       `INSERT INTO eat_logs
-      (id, user_id, food, portion, calories, carbs, prots, fats, date, time)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE(), CURRENT_TIME())`,
-      [id, uid, nama, porsi, kalori, Karbohidrat, Protein, Lemak]
+      (id, user_id, food, portion, calories,
+        carbs, prots, fats, date, time, image_url)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?,
+        CURRENT_DATE(), CURRENT_TIME(), ?)`,
+      [id, uid, nama, porsi, kalori,
+        Karbohidrat, Protein, Lemak, image]
     );
 
     const [log] = await pool.query(
@@ -33,6 +37,7 @@ const postEatLog = async (req, res) => {
       code: 200,
       status: 'OK',
       message: 'Log successfully added.',
+      image_url: image,
       data: log[0]
     });
   } catch (err) {
