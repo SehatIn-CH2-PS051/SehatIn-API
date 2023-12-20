@@ -198,7 +198,8 @@ The endpoint to get the user's eating logs.
       fats: 10.8,
       message: null,
       date: "2023-12-14T17:00:00.000Z",
-      time: "17:26:56"
+      time: "17:26:56",
+      image_url: "https://storage.googleapis.com/sehatin-users-images/tempe.jpg"
     }
   ]
 }
