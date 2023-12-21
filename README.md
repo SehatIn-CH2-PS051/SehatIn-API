@@ -206,3 +206,21 @@ The endpoint to get the user's eating logs.
   ]
 }
 ```
+---
+### 📃 GET /lstm
+
+The endpoint to retrieve the user eating pattern charts.
+
+```javascript
+// response body
+{
+  code: 200,
+  status: "OK",
+  data: {
+    calories_consumption_plot_url: "https://storage.googleapis.com/sehatin-users-images/ed32b89372f8_calories_consumption_plot.png",
+    macronutrient_proportion_plot_url: "https://storage.googleapis.com/sehatin-users-images/ed32b89372f8_macronutrient_proportion_plot.png",
+    message: "Warning: The proportion of protein is out of the acceptable range (10–35%). ",
+    predicted_values_plot_url: "https://storage.googleapis.com/sehatin-users-images/ed32b89372f8_predicted.png"
+  }
+}
+```
