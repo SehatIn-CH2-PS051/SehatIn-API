@@ -63,3 +63,7 @@ app.post('/eat-log', auth, postEatLog);
 // get eating logs
 const { getEatLog } = require('./controllers/eat_log');
 app.get('/eat-log', auth, getEatLog);
+
+// get eating pattern & predicted values chart
+const { lstm } = require('./controllers/lstm');
+app.get('/lstm', auth, lstm);
